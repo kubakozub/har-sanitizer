@@ -1,0 +1,50 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "har-sanitizer"
+version = "1.0.0"
+description = "Redact secrets and PII from HAR / raw HTTP / curl evidence before attaching it to a vulnerability report."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [{ name = "Jakub Kozub" }]
+keywords = [
+    "security",
+    "har",
+    "redaction",
+    "bug-bounty",
+    "pii",
+    "secrets",
+    "privacy",
+    "http",
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Information Technology",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3 :: Only",
+    "Topic :: Security",
+    "Topic :: Internet :: WWW/HTTP",
+    "Topic :: Utilities",
+]
+
+[project.urls]
+Homepage = "https://github.com/jkozub/har-sanitizer"
+Repository = "https://github.com/jkozub/har-sanitizer"
+Issues = "https://github.com/jkozub/har-sanitizer/issues"
+
+[project.scripts]
+har-sanitizer = "har_sanitizer.cli:main"
+
+[tool.setuptools]
+packages = ["har_sanitizer"]
+
+[tool.setuptools.package-data]
+har_sanitizer = ["py.typed"]
