@@ -1,5 +1,7 @@
 # har-sanitizer
 
+[![tests](https://github.com/kubakozub/har-sanitizer/actions/workflows/tests.yml/badge.svg)](https://github.com/kubakozub/har-sanitizer/actions/workflows/tests.yml)
+
 **Redact secrets and PII from HTTP evidence before you attach it to a bug report.**
 
 `har-sanitizer` takes the HTTP proof you want to include in a HackerOne /
