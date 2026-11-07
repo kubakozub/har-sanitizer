@@ -5,7 +5,7 @@
 **Redact secrets and PII from HTTP evidence before you attach it to a bug report.**
 
 `har-sanitizer` takes the HTTP proof you want to include in a HackerOne /
-Bugcrowd write-up — a HAR export, a raw request/response, or a `curl` command —
+Bugcrowd write-up (a HAR export, a raw request/response, or a `curl` command)
 and replaces session tokens, credentials, API keys, and customer PII with clear
 `<REDACTED:...>` placeholders. It keeps enough structure that the request stays
 understandable and reproducible, so your report is still convincing without
@@ -22,13 +22,13 @@ leaking **your** session or the **target's** customer data.
 A HAR captured from your browser or proxy is a *complete* recording of a
 session. Pasted into a report unedited, it routinely leaks:
 
-- **Your own session** — `Cookie`, `Authorization: Bearer …`, CSRF tokens.
+- **Your own session**: `Cookie`, `Authorization: Bearer …`, CSRF tokens.
   Anyone who reads the report (triager, program staff, later an attacker if the
   report is disclosed) can replay your authenticated session.
-- **The target's customer data** — emails, phone numbers, and full card
+- **The target's customer data**: emails, phone numbers, and full card
   numbers (PANs) sitting in request/response bodies. Handing that to a third
   party can turn your finding into a **privacy incident you caused**.
-- **Live credentials** — API keys, AWS access keys, and other high-entropy
+- **Live credentials**: API keys, AWS access keys, and other high-entropy
   secrets embedded in URLs, headers, and JSON.
 
 Redacting by hand is error-prone and easy to forget under deadline. This tool
@@ -77,7 +77,7 @@ Input type is auto-detected: JSON with a `log` object → HAR, text beginning wi
 
 ## Before / after
 
-**curl** (structure preserved — the command still runs):
+**curl** (structure preserved, the command still runs):
 
 ```text
 # before
@@ -115,7 +115,7 @@ Authorization: Bearer <REDACTED:bearer>
 
 Note how names and non-secret values are kept (`sessionid=`, `csrftoken=`,
 `Bearer`, `view=full`, the JSON keys) so a reviewer can still follow the
-request — only the sensitive values are gone.
+request: only the sensitive values are gone.
 
 ---
 
@@ -134,26 +134,26 @@ request — only the sensitive values are gone.
 
 **Values** (in URLs, query strings, bodies, and non-sensitive header values):
 
-- **Bearer / JWT tokens** — `eyJ….eyJ….sig`
-- **AWS access keys** — `AKIA…` / `ASIA…`
-- **Generic high-entropy secrets** — long base64/hex tokens over a Shannon
+- **Bearer / JWT tokens**: `eyJ….eyJ….sig`
+- **AWS access keys**: `AKIA…` / `ASIA…`
+- **Generic high-entropy secrets**: long base64/hex tokens over a Shannon
   entropy threshold (session ids, API keys, signing secrets)
-- **URL user-info credentials** — `https://user:pass@host` → password redacted
-- **Sensitive query/form fields** — `token`, `password`, `api_key`, `secret`,
+- **URL user-info credentials**: `https://user:pass@host` → password redacted
+- **Sensitive query/form fields**: `token`, `password`, `api_key`, `secret`,
   `code`, `otp`, … (configurable)
 - **Emails**
-- **Phone numbers** — conservative: needs `+` country code or clear separators
-- **Payment cards (PANs)** — 13–19 digits **gated by a Luhn checksum** to cut
+- **Phone numbers**: conservative, needs `+` country code or clear separators
+- **Payment cards (PANs)**: 13 to 19 digits **gated by a Luhn checksum** to cut
   false positives
-- **IP addresses** — opt-in via `--redact-ips`
+- **IP addresses**: opt-in via `--redact-ips`
 
 ---
 
 ## Modes
 
 ### `--report`
-Prints a summary of *what* was redacted — type and location, **never the
-value** — to stderr, so stdout stays a clean, pipeable artifact.
+Prints a summary of *what* was redacted (type and location, **never the
+value**) to stderr, so stdout stays a clean, pipeable artifact.
 
 ```text
 redaction report
@@ -198,7 +198,7 @@ har-sanitizer clean -i capture.har -o capture.clean.har --strict || {
 
 ## Customization
 
-Add header/parameter names, extra regexes, and an allow-list — via flags:
+Add header/parameter names, extra regexes, and an allow-list, via flags:
 
 ```bash
 har-sanitizer clean -i in.har -o out.har \
@@ -255,7 +255,7 @@ the output before you attach it.
 - It redacts values in the fields it understands; genuinely custom/nonstandard
   fields are only covered by the `--strict` full-text audit.
 - Preserved structure (cookie names, auth scheme, JSON keys, non-sensitive
-  params) is deliberate — review it to be sure none of *those* are sensitive in
+  params) is deliberate: review it to be sure none of *those* are sensitive in
   your specific target.
 
 When in doubt, redact more, and read the diff.
